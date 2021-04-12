@@ -2,8 +2,7 @@
 Заполните их текущими датой и временем.*/
 
 SELECT * FROM users;
-UPDATE users SET created_at = now(), 
-				 updated_at = now();
+UPDATE users SET created_at = now(), updated_at = now();
                  
 /* 2. Таблица users была неудачно спроектирована. 
 Записи created_at и updated_at были заданы типом VARCHAR и в них долгое время помещались значения 
@@ -30,3 +29,14 @@ SELECT * FROM catalogs WHERE id IN (5, 1, 2);
 Отсортируйте записи в порядке, заданном в списке IN. */
 
 SELECT * FROM catalogs WHERE id IN (5, 1, 2) ORDER BY FIELD(id, 5, 1, 2);
+
+/* 1. Подсчитайте средний возраст пользователей в таблице users.*/
+
+SELECT COUNT(*) FROM users;
+SELECT FLOOR(SUM(((TO_DAYS(NOW()) - TO_DAYS(birthday_at))/365.25)/6)) AS age FROM users;
+
+
+/* 2. Подсчитайте количество дней рождения, которые приходятся на каждый из дней недели.
+Следует учесть, что необходимы дни недели текущего года, а не года рождения. */
+
+SELECT DATE_FORMAT(DATE(CONCAT_WS('-', YEAR(NOW()), MONTH(birthday_at), DAY(birthday_at))), '%W') AS day, COUNT(*) AS total FROM users GROUP BY day ORDER BY total DESC;
