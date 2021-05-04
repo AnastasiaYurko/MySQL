@@ -7,7 +7,7 @@ CREATE TABLE users (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT "Идентификатор строки", 
   first_name VARCHAR(100) NOT NULL COMMENT "Имя пользователя",
   last_name VARCHAR(100) NOT NULL COMMENT "Фамилия пользователя",
-  nickname VARCHAR(100) NOT NULL COMMENT "Псеводним пользователя",
+  nickname VARCHAR(100) NOT NULL COMMENT "Псевдоним пользователя",
   birthday DATE COMMENT "Дата рождения",
   about TEXT NOT NULL COMMENT "Информация о пользователе",
   email VARCHAR(100) NOT NULL UNIQUE COMMENT "Почта",
@@ -163,16 +163,16 @@ updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMEN
 );
 
 -- 18. таблица тегов
-DROP TABLE IF EXISTS tegs;
-CREATE TABLE tegs (
+DROP TABLE IF EXISTS tags;
+CREATE TABLE tags (
 id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT "Идентификатор строки", 
 name VARCHAR(255) NOT NULL UNIQUE COMMENT "Название тега"
 ) COMMENT "Теги";
 
 -- 19. таблица связи тегов и книг
-DROP TABLE IF EXISTS tegs_books;
-CREATE TABLE tegs_books (
-teg_id INT UNSIGNED NOT NULL COMMENT "Ссылка на рассылку",
+DROP TABLE IF EXISTS tags_books;
+CREATE TABLE tags_books (
+tag_id INT UNSIGNED NOT NULL COMMENT "Ссылка на рассылку",
 book_id INT UNSIGNED NOT NULL COMMENT "Ссылка на пользователя",
 created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT "Время создания строки", 
 PRIMARY KEY (teg_id, book_id) COMMENT "Составной первичный ключ"
@@ -187,13 +187,13 @@ body TEXT NOT NULL COMMENT "Текст отзыва",
 likes_amount INT NOT NULL COMMENT "Количество лайков",
 dislikes_amount INT NOT NULL COMMENT "Количество дислайков",
 target_id INT UNSIGNED NOT NULL COMMENT "Ссылка на номер строки в таблице",
-target_type_id INT UNSIGNED NOT NULL COMMENT "Ссылка на тип отзыва",
+review_type_id INT UNSIGNED NOT NULL COMMENT "Ссылка на тип отзыва",
 created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT "Время создания строки"
 ) COMMENT "Отзывы"; 
 
 -- 21. таблица типов отзывов
-DROP TABLE IF EXISTS target_types;
-CREATE TABLE target_types (
+DROP TABLE IF EXISTS review_types;
+CREATE TABLE review_types (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL UNIQUE,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP

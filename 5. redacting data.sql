@@ -1,6 +1,9 @@
-SELECT * FROM users LIMIT 10;
+SELECT * FROM users;
 UPDATE users SET bonus_card_id = FLOOR(1 + RAND() * 14);
 UPDATE users SET updated_at = now() WHERE updated_at < created_at;
+UPDATE users SET adult_content_restriction = FLOOR(1 + RAND() * 2);
+UPDATE users SET bonus_card_id = FLOOR(1 + RAND() * 14);
+
 
 SELECT * FROM libraries;
 DROP TABLE IF EXISTS libraries;
@@ -77,9 +80,10 @@ UPDATE mailing_users SET mailing_id = FLOOR(1 + RAND() * 5);
 SELECT * FROM books;
 UPDATE books SET author_id = FLOOR(1 + RAND() * 100);
 UPDATE books SET series_id = FLOOR(1 + RAND() * 100);
-UPDATE books SET genre_id = FLOOR(1 + RAND() * 141);
+UPDATE books SET genre_id = FLOOR(1 + RAND() * 100);
 UPDATE books SET price = FLOOR(49 + RAND() * 1000);
 UPDATE books SET reviews_amount = FLOOR(1 + RAND() * 350);
+UPDATE books SET book_type_id = FLOOR(1 + RAND() * 11);
 
 SELECT * FROM authors;
 UPDATE authors SET books_amount = FLOOR(1 + RAND() * 300) WHERE books_amount = 0 OR books_amount > 300;
@@ -89,6 +93,7 @@ UPDATE authors SET updated_at = now() WHERE updated_at < created_at;
 SELECT * FROM series;
 
 SELECT * FROM genres;
+UPDATE genres SET genre_group_id = FLOOR(1 + RAND() * 14);
 
 SELECT * FROM genre_groups ORDER BY id;
 DROP TABLE IF EXISTS genre_groups;
@@ -115,11 +120,12 @@ UPDATE litres_ratings SET book_id = FLOOR(1 + RAND() * 100);
 UPDATE litres_ratings SET user_id = FLOOR(1 + RAND() * 100);
 UPDATE litres_ratings SET updated_at = now() WHERE updated_at < created_at;
 
-SELECT * FROM tegs;
+SELECT * FROM tags;
+RENAME TABLE tegs to tags;
 
-SELECT * FROM tegs_books;
-UPDATE tegs_books SET teg_id = FLOOR(1 + RAND() * 100);
-UPDATE tegs_books SET book_id = FLOOR(1 + RAND() * 100);
+SELECT * FROM tags_books;
+UPDATE tags_books SET teg_id = FLOOR(1 + RAND() * 100);
+UPDATE tags_books SET book_id = FLOOR(1 + RAND() * 100);
 
 SELECT * FROM reviews;
 UPDATE reviews SET user_id = FLOOR(1 + RAND() * 100);
@@ -128,14 +134,14 @@ UPDATE reviews SET dislikes_amount = FLOOR(1 + RAND() * 250);
 UPDATE reviews SET target_type_id = FLOOR(1 + RAND() * 2);
 UPDATE reviews SET target_id = FLOOR(1 + RAND() * 100);
 
-SELECT * FROM target_types;
-DROP TABLE IF EXISTS target_types;
-CREATE TABLE target_types (
+SELECT * FROM review_types;
+DROP TABLE IF EXISTS review_types;
+CREATE TABLE review_types (
   id INT UNSIGNED NOT NULL PRIMARY KEY,
   name VARCHAR(255) NOT NULL UNIQUE,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-INSERT INTO target_types(id, name) VALUES (1, "Автор"), (2, "Книга");
+INSERT INTO review_types(id, name) VALUES (1, "Автор"), (2, "Книга");
 
 SELECT * FROM books_users;
 UPDATE books_users SET book_id = FLOOR(1 + RAND() * 100);
